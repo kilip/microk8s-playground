@@ -1,6 +1,9 @@
 version: '3'
 
 tasks:
-  hello:
+  bootstrap:
     cmds:
-      - echo 'hello world'
+      - flux bootstrap git \
+          --url=ssh://git@github.com/kilip/microk8s-playground \
+          --branch=main \
+          --path=cluster/live
