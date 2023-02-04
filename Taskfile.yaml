@@ -1,9 +1,12 @@
+---
 version: '3'
+vars:
+  KUBERNETES_DIR: "{{.PWD}}/kubernetes"
 
+includes:
+  an: '.tasks/AnsibleTasks.yml'
+  cl: '.tasks/ClusterTasks.yml'
 tasks:
   bootstrap:
     cmds:
-      - flux bootstrap git \
-          --url=ssh://git@github.com/kilip/microk8s-playground \
-          --branch=main \
-          --path=cluster/live
+      - echo "{{.PWD}}/kubernetes"

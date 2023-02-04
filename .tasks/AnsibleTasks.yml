@@ -1,0 +1,38 @@
+---
+version: "3"
+env:
+  ANSIBLE_INVENTORY: "inventory/{{.OLYMPUS_ENV}}/hosts"
+
+tasks:
+  ping:
+    dir: ansible
+    cmds:
+      - ansible -m ping all
+  build:
+    dir: ansible
+    cmds:
+      - echo ${PWD}
+      - ansible-playbook playbook.yml
+
+  reboot:
+    dir: ansible
+    cmds:
+      - ansible servers --one-line -m 'reboot' {{.CLI_ARGS}} || true
+
+  wait:
+    desc: Wait until hosts ready
+    dir: ansible
+    cmds:
+      - ansible all --one-line -m 'wait_for_connection' {{.CLI_ARGS}}
+  
+  purge:
+    desc: Purge microk8s installation
+    dir: ansible
+    cmds:
+      - ansible-playbook purge.yml
+  
+  register:worker:
+    desc: Register workers to master
+    dir: ansible
+    cmds:
+      - ansible-playbook build-cluster.yml

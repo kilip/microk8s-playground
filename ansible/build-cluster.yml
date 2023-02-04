@@ -1,0 +1,12 @@
+---
+- name: register all workers to master
+  hosts: workers
+  become: true
+  tasks:
+    - name: debug env var
+      ansible.builtin.debug:
+        msg: "{{ lookup('ansible.builtin.env', 'CLUSTER_JOIN_ID')}}"
+    - name: register workers
+      ansible.builtin.command:
+        cmd: "microk8s join {{ lookup('ansible.builtin.env', 'CLUSTER_JOIN_ID') }} --worker"
+      ignore_errors: true
