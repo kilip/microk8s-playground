@@ -26,6 +26,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    nodeSelector:
+      olympus/role: hera
     hajimari:
       title: Apps
       darkTheme: espresso

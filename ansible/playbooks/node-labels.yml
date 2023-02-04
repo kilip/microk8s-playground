@@ -1,0 +1,27 @@
+---
+- name: Label nodes
+  hosts: kubernetes
+  tasks:
+    - name: labeling a node
+      debug: var=olympusrole
+    - name: labeling olympus role
+      kubernetes.core.k8s:
+        kind: node
+    - name: k8s ~> Ensure host facts gathered
+      ansible.builtin.set_fact:
+        k8s_hostname: "{{ ansible_hostname }}"
+        data_json: "{{ longhorn_disk_config|to_json }}"
+
+    - name: k8s ~> Ensure metadata configured
+      block:
+        - name: longhorn ~> Ensure node annotated
+          kubernetes.core.k8s:
+            kind: node
+            name: "{{ k8s_hostname }}"
+            kubeconfig: "{{ lookup('env', 'KUBECONFIG') }}"
+            definition:
+              metadata:
+                labels: "{{ olympusrole }}"
+      delegate_to: "localhost"
+      delegate_facts: true
+      become: false

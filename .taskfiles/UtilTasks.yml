@@ -2,6 +2,8 @@ version: "3"
 
 
 tasks:
-  pass:stop:
+  pass:purge:
     cmds:
-      - multipass stop --all
+      - multipass stop --all || true
+      - multipass delete --all || true
+      - multipass purge

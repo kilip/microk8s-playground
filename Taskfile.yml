@@ -17,6 +17,7 @@ includes:
   cl: .taskfiles/ClusterTasks.yml
   precommit: .taskfiles/PrecommitTasks.yml
   tf: .taskfiles/TerraformTasks.yml
+  ut: .taskfiles/UtilTasks.yml
 
 tasks:
 
