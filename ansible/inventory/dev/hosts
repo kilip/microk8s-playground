@@ -1,9 +1,0 @@
-[servers]
-hera ansible_host=10.132.145.61 ansible_user=ubuntu
-mars ansible_host=10.132.145.54 ansible_user=ubuntu
-
-[master]
-hera
-
-[workers]
-mars

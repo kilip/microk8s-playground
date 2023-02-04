@@ -1,0 +1,7 @@
+version: "3"
+
+
+tasks:
+  pass:stop:
+    cmds:
+      - multipass stop --all
