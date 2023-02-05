@@ -2,7 +2,7 @@
 
 # TL;DR
 
-#### Configuration
+### Configuration
 ```sh
 task init
 task precommit:init
@@ -19,8 +19,8 @@ And runs this command after succeeded:
 task configure
 ```
 
-#### Install
--  prepare nodes step:
+### Install
+#### prepare nodes step:
 ```sh
 task an:init
 task an:list
@@ -33,14 +33,14 @@ task an:prepare
 task an:force-reboot
 ```
 
--  k3s install step:
+#### k3s install step:
 ```sh
 task an:list
 task an:ping
 task an:install
 ```
 
--  cluster install:
+#### cluster install:
 ```sh
 # push your changes to github first
 git add . -A
