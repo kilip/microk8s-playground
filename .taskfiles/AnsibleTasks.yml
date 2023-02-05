@@ -23,66 +23,66 @@ tasks:
     desc: List all the hosts
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml --list-hosts
+      - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini --list-hosts
 
   prepare:
     desc: Prepare all the k8s nodes for running k3s
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-prepare.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-prepare.yml
 
   install:
     desc: Install Kubernetes on the nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-installation.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-installation.yml
 
   nuke:
     desc: Uninstall Kubernetes on the nodes
     dir: "{{.ANSIBLE_DIR}}"
     interactive: true
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-nuke.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-nuke.yml
       - task: force-reboot
 
   ping:
     desc: Ping all the hosts
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml --one-line -m 'ping'
+      - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini --one-line -m 'ping'
 
   uptime:
     desc: Uptime of all the hosts
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml --one-line -a 'uptime'
+      - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini --one-line -a 'uptime'
 
   rollout-reboot:
     desc: Rollout a reboot across all the k8s nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-rollout-reboot.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-rollout-reboot.yml
 
   force-reboot:
     desc: Reboot all the k8s nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-reboot.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-reboot.yml
 
   force-poweroff:
     desc: Shutdown all the k8s nodes
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible kubernetes -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml -a '/usr/bin/systemctl poweroff' --become
+      - ansible kubernetes -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini -a '/usr/bin/systemctl poweroff' --become
 
   label:
     desc: Creates node label
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/node-labels.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini {{.ANSIBLE_PLAYBOOK_DIR}}/node-labels.yml
 
-  test:
-    desc: test olympus preflight
+  server:
+    desc: Install additional olympus server
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/test.yml {{.CLI_ARGS}}
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.ini {{.ANSIBLE_PLAYBOOK_DIR}}/servers.yml {{.CLI_ARGS}}

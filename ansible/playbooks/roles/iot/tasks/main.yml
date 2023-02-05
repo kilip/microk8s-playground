@@ -1,0 +1,5 @@
+---
+- name: Ensure openhab installed
+  ansible.builtin.include_tasks:
+    file: 'openhab.yml'
+  when: install_openhab

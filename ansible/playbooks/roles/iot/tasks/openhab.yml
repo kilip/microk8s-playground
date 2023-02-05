@@ -1,0 +1,52 @@
+---
+- name: Ensure required package installed
+  ansible.builtin.apt:
+    package:
+      - gnupg
+      - ca-certificates
+      - curl
+      - apt-transport-https
+    state: present
+
+- name: Ensure zulu repo gpg key imported
+  ansible.builtin.apt_key:
+    url: "https://repos.azul.com/azul-repo.key"
+    keyring: "/usr/share/keyrings/azul-repo.key"
+    state: present
+
+- name: Ensure zulu java repository list
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/azul-repo.key] https://repos.azul.com/zulu/deb stable main"
+    filename: zulu.list
+    state: present
+    update_cache: true
+
+- name: Ensure zulu java installed
+  ansible.builtin.apt:
+    package: "{{ zulu_java_version }}"
+    state: present
+
+- name: Ensure openhab gpg key imported
+  ansible.builtin.apt_key:
+    url: "https://openhab.jfrog.io/artifactory/api/gpg/key/public"
+    keyring: /usr/share/keyrings/openhab.gpg
+    state: present
+
+- name: Ensure openhab apt repo exists
+  ansible.builtin.apt_repository:
+    repo: 'deb [signed-by=/usr/share/keyrings/openhab.gpg] https://openhab.jfrog.io/artifactory/openhab-linuxpkg stable main'
+    filename: openhab.list
+    state: present
+    update_cache: true
+
+- name: Ensure openhab packages installed
+  ansible.builtin.apt:
+    package:
+      - openhab
+      - openhab-addons
+    state: present
+
+- name: Ensure openhab service started
+  ansible.builtin.service:
+    name: openhab
+    state: started
