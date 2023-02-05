@@ -1,0 +1,7 @@
+---
+- hosts: kubernetes
+  become: true
+  tasks:
+    - name: include preflight tasks
+      ansible.builtin.include_role:
+        name: preflight

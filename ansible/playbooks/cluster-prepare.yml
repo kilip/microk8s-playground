@@ -10,6 +10,9 @@
       ansible.builtin.pause:
         seconds: 5
   tasks:
+    - name: include preflight roles
+      ansible.builtin.include_role:
+        name: preflight
     - name: Locale
       block:
         - name: Locale | Set timezone

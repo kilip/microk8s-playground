@@ -1,0 +1,24 @@
+---
+- name: Upgrade dist
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: true
+  notify: reboot
+
+- name: Ensure lid switch configured
+  community.general.ini_file:
+    path: /etc/systemd/logind.conf
+    section: Login
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    create: false
+  notify: restart systemd-logind
+  loop:
+    - option: HandleSuspendKey
+      value: ignore
+    - option: HandleLidSwitch
+      value: ignore
+    - option: HandleLidSwitchExternalPower
+      value: ignore
+  loop_control:
+    label: "{{ item.option }}~>{{ item.value }}"

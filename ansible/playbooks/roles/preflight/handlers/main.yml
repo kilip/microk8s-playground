@@ -1,0 +1,15 @@
+---
+- name: reboot
+  ansible.builtin.reboot:
+    msg: Rebooting nodes
+    reboot_timeout: 3600
+
+- name: restart systemd-logind
+  ansible.builtin.service:
+    name: systemd-logind
+    state: restarted
+
+- name: update ca-certificates
+  ansible.builtin.command:
+    cmd: update-ca-certificates
+  changed_when: false
