@@ -7,3 +7,9 @@ tasks:
       - multipass stop --all || true
       - multipass delete --all || true
       - multipass purge
+  pass:new:
+    cmds:
+      - multipass launch --network {{.ZEUS_IFACE}} --memory 4G --name {{.NAME}}
+    vars:
+      NAME: '{{ (split " " .CLI_ARGS)._0 }}'
+      MAC: '{{ (split " " .CLI_ARGS)._1 }}'

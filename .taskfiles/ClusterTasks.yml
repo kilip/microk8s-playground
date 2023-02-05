@@ -2,7 +2,11 @@
 version: "3"
 
 tasks:
-
+  label:
+    desc: Label a node
+    cmds:
+      - kubectl label nodes {{.CLI_ARGS}}
+      - kubectl get nodes --show-labels
   verify:
     desc: Verify flux meets the prerequisites
     cmds:
